@@ -4,9 +4,9 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i
 const env = process.env.NODE_ENV === 'production'
-const resolve = (dir) => path.join(__dirname, dir)
+const resolve = dir => path.join(__dirname, dir)
 module.exports = {
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
     svgRule
@@ -21,9 +21,9 @@ module.exports = {
             { prefixIds: false },
             { cleanupIDs: false },
             { convertShapeToPath: false },
-            { convertStyleToAttrs: false },
-          ],
-        },
+            { convertStyleToAttrs: false }
+          ]
+        }
       })
     config.resolve.alias
       .set('vue$', 'vue/dist/vue.esm.js')
@@ -33,7 +33,7 @@ module.exports = {
     // config.plugins.delete('named-chunks')
     return config
   },
-  configureWebpack: (config) => {
+  configureWebpack: config => {
     config.resolve.extensions = [
       '.vue',
       '.js',
@@ -44,7 +44,7 @@ module.exports = {
       '.scss',
       '.jpg',
       '.png',
-      '.svg',
+      '.svg'
     ]
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
     if (env) {
@@ -55,7 +55,7 @@ module.exports = {
           algorithm: 'gzip',
           test: productionGzipExtensions,
           threshold: 10240,
-          minRatio: 0.8,
+          minRatio: 0.8
         }),
         new FileManagerPlugin({
           onEnd: {
@@ -63,10 +63,10 @@ module.exports = {
             archive: [
               {
                 source: `./${process.env.VUE_APP_OUTPUTDIR}`,
-                destination: `./${process.env.VUE_APP_OUTPUTDIR}.zip`,
-              },
-            ],
-          },
+                destination: `./${process.env.VUE_APP_OUTPUTDIR}.zip`
+              }
+            ]
+          }
         })
       )
       config.plugins = [...config.plugins, ...plugins]
@@ -78,16 +78,16 @@ module.exports = {
               name: 'chunk-libs',
               test: /[\\/]node_modules[\\/]/,
               priority: 10,
-              chunks: 'initial',
+              chunks: 'initial'
             },
             antvUI: {
               name: 'chunk-antvUI',
               priority: 20,
               test: /[\\/]node_modules[\\/]ant-design-vue[\\/]/,
-              chunks: 'all',
-            },
-          },
-        },
+              chunks: 'all'
+            }
+          }
+        }
       }
     }
   },
@@ -104,18 +104,18 @@ module.exports = {
           'table-row-hover-bg': 'rgba(55,160,185,0.1)',
           'table-footer-color': 'transparent' */
         },
-        javascriptEnabled: true,
-      },
-    },
+        javascriptEnabled: true
+      }
+    }
   },
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',
-      patterns: [resolve('./src/less/theme.less')],
-    },
+      patterns: [resolve('./src/less/theme.less')]
+    }
   },
   transpileDependencies: ['ant-design-vue', 'resize-detector'],
   outputDir: process.env.VUE_APP_OUTPUTDIR,
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
-  productionSourceMap: false,
+  productionSourceMap: false
 }
