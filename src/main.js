@@ -1,10 +1,14 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
+import { Button, message } from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
+import { createApp } from 'vue';
+import App from './App.vue';
 
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  render: (h) => h(App),
-}).$mount('#app')
+const app = createApp(App)
+app.config = {
+  productionTip: false,
+  globalProperties: {
+    $message: message
+  }
+}
+app.use(Button)
+app.mount('#app')
