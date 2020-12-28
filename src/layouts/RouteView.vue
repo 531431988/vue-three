@@ -4,15 +4,15 @@ export default {
   props: {
     keepAlive: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
-  data() {
+  data () {
     return {}
   },
-  render() {
+  render () {
     const {
-      $route: { meta },
+      $route: { meta }
     } = this
     const inKeep = (
       <keep-alive>
@@ -26,6 +26,6 @@ export default {
       return notKeep
     }
     return this.keepAlive || meta.keepAlive ? inKeep : notKeep
-  },
+  }
 }
 </script>

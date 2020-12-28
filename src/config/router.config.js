@@ -30,9 +30,17 @@ const routes = [
           {
             path: '/index',
             name: 'start',
-            component: () => import('@/views/start/index'),
+            component: () => import('@/views/start'),
             meta: {
               title: '创建一个场景'
+            }
+          },
+          {
+            path: '/draw-line',
+            name: 'draw-line',
+            component: () => import('@/views/draw-line'),
+            meta: {
+              title: '画线'
             }
           }
         ]

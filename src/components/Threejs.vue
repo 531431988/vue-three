@@ -5,12 +5,12 @@
 <script>
 import * as THREE from 'three'
 export default {
-  data() {
+  data () {
     return {
       dom: null
     }
   },
-  created() {
+  created () {
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(
       75,

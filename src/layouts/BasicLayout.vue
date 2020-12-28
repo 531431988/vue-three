@@ -1,17 +1,6 @@
 <template>
-  <ProLayout
-    :menus="menus"
-    :collapsed="collapsed"
-    :theme="theme"
-    :layout="layout"
-    :contentWidth="contentWidth"
-    :auto-hide-header="autoHideHeader"
-    :mediaQuery="query"
-    :isMobile="isMobile"
-    :i18nRender="t => t"
-    :handleCollapse="e => e"
-    :handleMediaQuery="e => e"
-  >
+  <ProLayout :menus="menus" :collapsed="collapsed" :theme="theme" :layout="layout" :contentWidth="contentWidth" :auto-hide-header="autoHideHeader" :mediaQuery="query" :isMobile="isMobile" :i18nRender="t => t"
+    :handleCollapse="e => e" :handleMediaQuery="e => e">
     <template v-slot:menuHeaderRender>
       <div>
         <logoSvg />
@@ -19,12 +8,10 @@
       </div>
     </template>
     <template v-slot:rightContentRender>
-      <div
-        :class="[
+      <div :class="[
           'ant-pro-global-header-index-right',
           layout === 'topmenu' && `ant-pro-global-header-index-${theme}`
-        ]"
-      >
+        ]">
         rightContentRender
       </div>
     </template>
@@ -45,7 +32,7 @@ export default {
     ProLayout,
     logoSvg
   },
-  data() {
+  data () {
     return {
       menus: [],
       collapsed: false,
@@ -57,11 +44,11 @@ export default {
       isMobile: false
     }
   },
-  created() {
+  created () {
     this.menus = routes.find(item => item.path === '/').children
   },
   methods: {
-    handleMediaQuery(query) {
+    handleMediaQuery (query) {
       this.query = query
       if (this.isMobile && !query['screen-xs']) {
         this.isMobile = false
@@ -72,7 +59,7 @@ export default {
         this.collapsed = false
       }
     },
-    handleCollapse(collapsed) {
+    handleCollapse (collapsed) {
       this.collapsed = collapsed
     }
   }
