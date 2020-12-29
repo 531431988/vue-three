@@ -1,14 +1,12 @@
 <template>
   <div>
-    <Threejs
-      @init="onInit"
-      :id="`threejs${_uid}`"
-    />
+    <Threejs @init="onInit" :id="`threejs${_uid}`" />
   </div>
 </template>
 
 <script>
 import Threejs from '@/components/Threejs'
+import OrbitControls from 'three-orbitcontrols'
 export default {
   components: {
     Threejs
@@ -40,6 +38,8 @@ export default {
 
           renderer.render(scene, camera)
         }
+        const controls = new OrbitControls(camera, renderer.domElement)
+        controls.enableDamping = true
 
         animate()
       })
