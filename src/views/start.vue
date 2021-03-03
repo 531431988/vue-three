@@ -20,21 +20,22 @@ export default {
     onInit ({ scene, camera, renderer }, THREE) {
       this.$nextTick(() => {
         const box = this.$el.querySelector(`#threejs${this._uid}`)
-        renderer.setSize(box.clientWidth, 500)
+        renderer.setSize(box.clientWidth, 600)
         this.dom = renderer.domElement
         box.appendChild(renderer.domElement)
-        const geometry = new THREE.BoxGeometry()
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-        const cube = new THREE.Mesh(geometry, material)
-        scene.add(cube)
+        // const geometry = new THREE.BoxGeometry()
+        const geometry = new THREE.SphereGeometry(3, 32, 32)
+        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+        const shape = new THREE.Mesh(geometry, material)
+        scene.add(shape)
 
         camera.position.z = 5
 
         const animate = function () {
           requestAnimationFrame(animate)
 
-          cube.rotation.x += 0.01
-          cube.rotation.y += 0.01
+          shape.rotation.x += 0.01
+          shape.rotation.y += 0.01
 
           renderer.render(scene, camera)
         }

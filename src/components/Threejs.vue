@@ -6,9 +6,7 @@
 import * as THREE from 'three'
 export default {
   data () {
-    return {
-      dom: null
-    }
+    return {}
   },
   created () {
     const scene = new THREE.Scene()
