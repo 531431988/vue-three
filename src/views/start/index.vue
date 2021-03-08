@@ -1,14 +1,17 @@
 <template>
-  <div>1</div>
+  <div>
+    起步
+  </div>
 </template>
 
 <script>
-import { Scene, Engine } from 'babylonjs'
 export default {
   components: {
+
   },
   data () {
     return {
+
     }
   },
   methods: {
@@ -16,3 +19,6 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+</style>

@@ -30,41 +30,9 @@ const routes = [
           {
             path: '/index',
             name: 'start',
-            component: () => import('@/views/start'),
+            component: () => import('@/views/start/index'),
             meta: {
               title: '创建一个场景'
-            }
-          },
-          {
-            path: '/draw-line',
-            name: 'draw-line',
-            component: () => import('@/views/draw-line'),
-            meta: {
-              title: '画线'
-            }
-          },
-          {
-            path: '/top',
-            name: 'top',
-            component: () => import('@/views/top'),
-            meta: {
-              title: '顶点'
-            }
-          },
-          {
-            path: '/material',
-            name: 'material',
-            component: () => import('@/views/material'),
-            meta: {
-              title: '材质'
-            }
-          },
-          {
-            path: '/video',
-            name: 'video',
-            component: () => import('@/views/video'),
-            meta: {
-              title: '加载视频'
             }
           }
         ]

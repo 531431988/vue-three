@@ -1,10 +1,10 @@
 <template>
-  <ProLayout :menus="menus" :collapsed="collapsed" :theme="theme" :fixSiderbar="true" :fixedHeader="true" :layout="layout" :contentWidth="contentWidth" :auto-hide-header="autoHideHeader" :mediaQuery="query"
-    :isMobile="isMobile" :i18nRender="t => t" :handleCollapse="handleCollapse" :handleMediaQuery="handleMediaQuery">
+  <ProLayout :menus="menus" :collapsed="collapsed" :theme="theme" :fixSiderbar="true" :fixedHeader="true" :layout="layout" :contentWidth="contentWidth" :auto-hide-header="autoHideHeader" :mediaQuery="query" :isMobile="isMobile" :i18nRender="t => t" :handleCollapse="handleCollapse"
+    :handleMediaQuery="handleMediaQuery">
     <template v-slot:menuHeaderRender>
       <div>
         <logoSvg />
-        <h1>vue-openlayers</h1>
+        <h1>vue-babylonjs</h1>
       </div>
     </template>
     <template v-slot:rightContentRender>
