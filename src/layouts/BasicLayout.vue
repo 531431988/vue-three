@@ -1,10 +1,10 @@
 <template>
-  <ProLayout :menus="menus" :collapsed="collapsed" :theme="theme" :layout="layout" :contentWidth="contentWidth" :auto-hide-header="autoHideHeader" :mediaQuery="query" :isMobile="isMobile" :i18nRender="t => t"
-    :handleCollapse="e => e" :handleMediaQuery="e => e">
+  <ProLayout :menus="menus" :collapsed="collapsed" :theme="theme" :fixSiderbar="true" :fixedHeader="true" :layout="layout" :contentWidth="contentWidth" :auto-hide-header="autoHideHeader" :mediaQuery="query"
+    :isMobile="isMobile" :i18nRender="t => t" :handleCollapse="handleCollapse" :handleMediaQuery="handleMediaQuery">
     <template v-slot:menuHeaderRender>
       <div>
         <logoSvg />
-        <h1>vue-threejs</h1>
+        <h1>vue-openlayers</h1>
       </div>
     </template>
     <template v-slot:rightContentRender>
@@ -66,6 +66,13 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.ant-pro-sider-menu {
+  /deep/ .ant-menu {
+    .anticon::before {
+      display: block;
+    }
+  }
+}
 .ant-layout-footer {
   display: none;
 }
