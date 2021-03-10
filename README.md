@@ -1,4 +1,4 @@
-# vue-threejs
+# vue-babylonjs
 
 ---
 

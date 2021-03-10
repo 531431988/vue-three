@@ -12,7 +12,9 @@
           'ant-pro-global-header-index-right',
           layout === 'topmenu' && `ant-pro-global-header-index-${theme}`
         ]">
-        rightContentRender
+        <a-button type="link">
+          <a href="https://www.babylonjs.com/" target="_blank">babylonjs 官网</a>
+        </a-button>
       </div>
     </template>
     <template v-slot:footerRender>

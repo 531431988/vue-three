@@ -15,7 +15,8 @@ const routes = [
         name: 'index',
         component: () => import('@/views/index'),
         meta: {
-          title: '首页'
+          title: '首页',
+          icon: 'home'
         }
       },
       {
@@ -24,15 +25,40 @@ const routes = [
         redirect: '/start/index',
         component: RouteView,
         meta: {
-          title: '起步'
+          title: '起步',
+          icon: 'rocket'
         },
         children: [
           {
-            path: '/index',
-            name: 'start',
-            component: () => import('@/views/start/index'),
+            path: '/set-shape',
+            name: 'set-shape',
+            component: () => import('@/views/start/set-shape'),
             meta: {
-              title: '创建一个场景'
+              title: '设置形状'
+            }
+          },
+          {
+            path: '/parametric-shapes',
+            name: 'parametric-shapes',
+            component: () => import('@/views/start/parametric-shapes'),
+            meta: {
+              title: '参数形状'
+            }
+          },
+          {
+            path: '/load-gltf',
+            name: 'load-gltf',
+            component: () => import('@/views/start/load-gltf'),
+            meta: {
+              title: '加载gltf'
+            }
+          },
+          {
+            path: '/video-texture',
+            name: 'video-texture',
+            component: () => import('@/views/start/video-texture'),
+            meta: {
+              title: '视频贴图'
             }
           }
         ]

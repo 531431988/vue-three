@@ -2055,7 +2055,20 @@ babel-runtime@6.x, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.11.0"
 
-babylonjs@^4.2.0:
+babylonjs-gltf2interface@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.npm.taobao.org/babylonjs-gltf2interface/download/babylonjs-gltf2interface-4.2.0.tgz#b0ef1e11e3574cf2c6f573d0c5c34857a2a7b322"
+  integrity sha1-sO8eEeNXTPLG9XPQxcNIV6KnsyI=
+
+babylonjs-loaders@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.npm.taobao.org/babylonjs-loaders/download/babylonjs-loaders-4.2.0.tgz#3d536cb72bf8650fe7f1cee12380bea3227d79c0"
+  integrity sha1-PVNstyv4ZQ/n8c7hI4C+oyJ9ecA=
+  dependencies:
+    babylonjs "4.2.0"
+    babylonjs-gltf2interface "4.2.0"
+
+babylonjs@4.2.0, babylonjs@^4.2.0:
   version "4.2.0"
   resolved "https://registry.npm.taobao.org/babylonjs/download/babylonjs-4.2.0.tgz#8f0d957a726de4c065904b14c2f413f455145d38"
   integrity sha1-jw2VenJt5MBlkEsUwvQT9FUUXTg=
@@ -6971,6 +6984,11 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+pepjs@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.npm.taobao.org/pepjs/download/pepjs-0.5.3.tgz#dc755f03d965c20e4b1bb65e42a03a97c382cfc7"
+  integrity sha1-3HVfA9llwg5LG7ZeQqA6l8OCz8c=
 
 performance-now@^2.1.0:
   version "2.1.0"

@@ -4,4 +4,8 @@
   </div>
 </template>
 
-<style lang="less"></style>
+<style lang="less">
+#renderCanvas {
+  height: calc(100vh - 118px);
+}
+</style>
