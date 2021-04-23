@@ -1,0 +1,102 @@
+{
+  "asset": {
+    "generator": "COLLADA2GLTF",
+    "version": "2.0"
+  },
+  "scenes": [
+    {
+      "nodes": [0]
+    }
+  ],
+  "scene": 0,
+  "nodes": [
+    {
+      "children": [1],
+      "name": "Y_UP"
+    },
+    {
+      "mesh": 0,
+      "name": "晶格.1"
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 2
+          },
+          "indices": 0,
+          "mode": 4,
+          "material": 0
+        }
+      ],
+      "name": "ID5"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "byteOffset": 0,
+      "componentType": 5125,
+      "count": 851760,
+      "max": [277344],
+      "min": [0],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 0,
+      "componentType": 5126,
+      "count": 277345,
+      "max": [1, 1, 1],
+      "min": [-1, -1, -1],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3328140,
+      "componentType": 5126,
+      "count": 277345,
+      "max": [1.2221400737762451, 0.4384329915046692, 0.9604519605636596],
+      "min": [-1.2221400737762451, 0, -0.9604519605636596],
+      "type": "VEC3"
+    }
+  ],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0,
+        "baseColorFactor": [0.62890625, 0.83984375, 0.98828125, 0.8],
+        "roughnessFactor": 1
+      },
+      "emissiveFactor": [0.62890625, 0.83984375, 0.98828125],
+      "name": "ID2",
+      "alphaMode": "OPAQUE",
+      "doubleSided": false
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 3407040,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 3407040,
+      "byteLength": 6656280,
+      "byteStride": 12,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "name": "baidu-wire-o",
+      "byteLength": 10063320,
+      "uri": "baidu-wire-o.bin"
+    }
+  ]
+}

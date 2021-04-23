@@ -14,20 +14,39 @@ export default {
 
       scene.createDefaultCameraOrLight(true, true, true)
       scene.activeCamera.radius = 20
-      // const camera = new ArcRotateCamera('Camera', 0, 0, 20, new Vector3(), scene)
-      // camera.attachControl(canvas, true)
+
       // const hdrTexture = new HDRCubeTexture('./night.hdr', scene, 512)
       const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData('./environment.dds', scene)
       scene.createDefaultSkybox(hdrTexture, true)
 
+      var sphere = new MeshBuilder.CreateSphere('sphere1', { diameter: 5 }, scene)
+      sphere.position.x = 2
+      sphere.actionManager = new ActionManager(scene)
+      sphere.actionManager.registerAction(new ExecuteCodeAction(BABYLON.ActionManager.OnPickUpTrigger, function () {
+        alert('sphere clicked')
+      }))
+      console.log('sphere', sphere)
+
       // 在场景中添加
-      BABYLON.SceneLoader.Append('./models/gltf/Duck/', 'Duck.gltf', scene, (meshes) => {
+      BABYLON.SceneLoader.Append('./models/gltf/Duck/', 'Duck.gltf', scene, res => {
+        console.log('Append', res)
+        res.meshes[3].scaling.scaleInPlace(15)
+        res.meshes[3].actionManager = new ActionManager(scene)
+        res.meshes[3].actionManager.registerAction(new ExecuteCodeAction(BABYLON.ActionManager.OnPickUpTrigger, function () {
+          alert('Append clicked')
+        }))
       })
-      /* meshes.actionManager = new ActionManager(scene)
-      console.log(new ActionManager(scene))
-      meshes.actionManager.registerAction(new ExecuteCodeAction(BABYLON.ActionManager.OnPickUpTrigger, function () {
-        alert('mesh clicked')
-      })) */
+      Promise.all([
+        BABYLON.SceneLoader.ImportMeshAsync(null, './models/gltf/Duck/', 'Duck.gltf', scene).then((res) => {
+          console.log('ImportMeshAsync', res)
+          res.meshes[1].scaling.scaleInPlace(5)
+          res.meshes[1].actionManager = new ActionManager(scene)
+          res.meshes[1].actionManager.registerAction(new ExecuteCodeAction(BABYLON.ActionManager.OnPickUpTrigger, function () {
+            alert('ImportMeshAsync clicked')
+          }))
+        })
+      ])
+
       engine.runRenderLoop(() => {
         scene.render()
       })
