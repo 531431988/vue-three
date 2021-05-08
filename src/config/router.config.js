@@ -54,6 +54,14 @@ const routes = [
             }
           },
           {
+            path: '/load-glb',
+            name: 'load-glb',
+            component: () => import('@/views/start/load-glb'),
+            meta: {
+              title: '加载glb'
+            }
+          },
+          {
             path: '/video-texture',
             name: 'video-texture',
             component: () => import('@/views/start/video-texture'),
