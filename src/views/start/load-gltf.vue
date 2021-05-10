@@ -28,7 +28,7 @@ export default {
       console.log('sphere', sphere)
 
       // 在场景中添加
-      BABYLON.SceneLoader.Append('./models/gltf/Duck/', 'Duck.gltf', scene, res => {
+      BABYLON.SceneLoader.Append('./models/gltf/nanfangdalou/', 'nanfangdalou.gltf', scene, res => {
         console.log('Append', res)
         res.meshes[3].scaling.scaleInPlace(15)
         res.meshes[3].actionManager = new ActionManager(scene)
@@ -36,8 +36,8 @@ export default {
           alert('Append clicked')
         }))
       })
-      Promise.all([
-        BABYLON.SceneLoader.ImportMeshAsync(null, './models/gltf/Duck/', 'Duck.gltf', scene).then((res) => {
+      /* Promise.all([
+        BABYLON.SceneLoader.ImportMeshAsync(null, './models/gltf/Duck/', 'scene.gltf', scene).then((res) => {
           console.log('ImportMeshAsync', res)
           res.meshes[1].scaling.scaleInPlace(5)
           res.meshes[1].actionManager = new ActionManager(scene)
@@ -45,7 +45,7 @@ export default {
             alert('ImportMeshAsync clicked')
           }))
         })
-      ])
+      ]) */
 
       engine.runRenderLoop(() => {
         scene.render()

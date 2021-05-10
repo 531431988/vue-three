@@ -60,8 +60,7 @@ const routes = [
             meta: {
               title: '加载glb'
             }
-          },
-          {
+          }, {
             path: '/video-texture',
             name: 'video-texture',
             component: () => import('@/views/start/video-texture'),
@@ -72,6 +71,14 @@ const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/data-view',
+    name: 'data-view',
+    component: () => import('@/views/start/data-view'),
+    meta: {
+      title: '3D大屏'
+    }
   }
 ]
 

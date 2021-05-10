@@ -11,6 +11,7 @@
     "@ant-design-vue/pro-layout": "^1.0.7",
     "ant-design-vue": "^1.7.2",
     "babylonjs": "^4.2.0",
+    "babylonjs-gui": "^4.2.0",
     "babylonjs-loaders": "^4.2.0",
     "core-js": "^3.6.5",
     "pepjs": "^0.5.3",
