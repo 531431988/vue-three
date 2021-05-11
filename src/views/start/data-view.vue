@@ -8,96 +8,93 @@ import * as BABYLON from 'babylonjs'
 import * as GUI from 'babylonjs-gui'
 import 'babylonjs-inspector'
 import 'babylonjs-loaders'
+let engine = null
+let scene1 = null
+let scene2 = null
 export default {
   data () {
     return {
-      scene: 1
+      showScene: '全景视图'
+    }
+  },
+  watch: {
+    showScene () {
+      console.log('neww', this.showScene)
+      this.advancedTexture.dispose()
+      this.createGUI({ engine, text: this.showScene })
     }
   },
   methods: {
     createScene (canvas) {
-      const engine = new BABYLON.Engine(canvas, true)
-      this.loadScene({ engine, canvas, url: './models/gltf/dongfangnanfang/', name: 'dfnf.gltf', text: '进入1层' })
-    },
-    // 动态加载场景
-    loadScene ({ engine, canvas, url, name, text }) {
-      const scene = new BABYLON.Scene(engine)
-      var camera = null
-      var light = null
-      if (text === '进入1层') {
-        camera = new BABYLON.ArcRotateCamera('Camera', 4.67, 1.45, 138, new BABYLON.Vector3(0, -100, 50), scene)
-        camera.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
-        camera.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
-        camera.lowerRadiusLimit = 100 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
-        camera.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
-        camera.attachControl(canvas, true)
-        light = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(0.60, -0.7, 0.63), scene)
-        light.position = new BABYLON.Vector3(-0.05, 0.35, -0.05)
-        light.intensity = 8
-        new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene)
-      } else {
-        camera = new BABYLON.ArcRotateCamera('Camera', 4.66, 1.15, 100, new BABYLON.Vector3(0, -100, 50), scene)
-        /* camera.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
-        camera.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
-        camera.lowerRadiusLimit = 100 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
-        camera.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
-        camera.attachControl(canvas, true)
-        light = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(0.60, -0.7, 0.63), scene)
-        light.position = new BABYLON.Vector3(-0.05, 0.35, -0.05)
-        light.intensity = 8
-        new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene) */
-      }
-      BABYLON.SceneLoader.Append(url, name, scene, res => {
-        this.createGUI({ engine, canvas, text })
+      engine = new BABYLON.Engine(canvas, true)
+      // 创建场景1
+      scene1 = new BABYLON.Scene(engine)
+      const camera1 = new BABYLON.ArcRotateCamera('Camera', 4.67, 1.45, 138, new BABYLON.Vector3(0, -100, 50), scene1)
+      camera1.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
+      camera1.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
+      camera1.lowerRadiusLimit = 100 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
+      camera1.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
+      camera1.attachControl(canvas, true)
+      const light1 = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(0.60, -0.7, 0.63), scene1)
+      light1.position = new BABYLON.Vector3(-0.05, 0.35, -0.05)
+      light1.intensity = 8
+      new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene1)
+
+      // 创建场景2
+      scene2 = new BABYLON.Scene(engine)
+      // const camera2 = new BABYLON.ArcRotateCamera('Camera', 4.66, 1.15, 100, new BABYLON.Vector3(0, -100, 50), scene2)
+      scene2.createDefaultCameraOrLight(true, true, true)
+      // 加载模型
+      BABYLON.SceneLoader.AppendAsync('./models/gltf/dongfangnanfang/', 'dfnf.gltf', scene1).then(scene => {
+        console.log('加载场景1成功')
+      })
+      BABYLON.SceneLoader.Append('./models/gltf/first-floor/', '1c.gltf', scene2, res => {
+        console.log('加载场景2成功')
       }, () => { }, error => {
         console.log('error', error)
       })
+      this.createGUI({ engine, text: '进入一层' })
+      this.changeScene({ engine })
+    },
+    changeScene ({ engine }) {
+      engine.stopRenderLoop()
+      /* if (this.showScene === '进入一层') {
+        scene1.debugLayer.show()
+      } else {
+        scene2.debugLayer.show()
+      } */
       engine.runRenderLoop(() => {
-        scene.render()
+        if (this.showScene === '进入一层') {
+          scene1.render()
+        } else {
+          scene2.render()
+        }
       })
       window.addEventListener('resize', function () {
         engine.resize()
       })
-      scene.debugLayer.show()
     },
-    createGUI ({ engine, canvas, text = '1' }) {
-      var advancedTexture = new GUI.AdvancedDynamicTexture.CreateFullscreenUI('enter-the-buliding')
-      var button1 = new GUI.Button.CreateSimpleButton('btn', text)
-      button1.width = '100px'
-      button1.height = '40px'
-      button1.left = '13%'
-      button1.color = '#fff'
-      button1.background = 'rgba(0,0,0,.5)'
-      button1.onPointerUpObservable.add(() => {
-        if (text === '进入1层') {
-          this.loadScene({ engine, canvas, url: './models/gltf/first-floor/', name: '1c.gltf', text: '全景' })
+    createGUI ({ text }) {
+      this.showScene = text
+      this.advancedTexture = new GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', true, text === '进入一层' ? scene1 : scene2)
+      const button = new GUI.Button.CreateSimpleButton('but', text)
+      button.width = 0.2
+      button.height = '40px'
+      button.color = 'white'
+      button.background = 'rgba(0,0,0,.5)'
+      button.onPointerUpObservable.add(() => {
+        if (this.showScene === '进入一层') {
+          this.showScene = '全景视图'
         } else {
-          this.loadScene({ engine, canvas, url: './models/gltf/dongfangnanfang/', name: 'dfnf.gltf', text: '进入1层' })
+          this.showScene = '进入一层'
         }
       })
-      advancedTexture.addControl(button1)
-    },
-    refreshScale () {
-      const baseWidth = document.documentElement.clientWidth
-      const baseHeight = document.documentElement.clientHeight
-      const appStyle = document.getElementById('app')
-      // 屏幕比
-      const realRatio = baseWidth / baseHeight
-      // 设计稿比
-      const designRatio = 16 / 9
-      let scaleRate = baseWidth / 1920
-      if (realRatio > designRatio) {
-        scaleRate = baseHeight / 1080
-      }
-      appStyle.style = `transform-origin: left top;transform: scale(${scaleRate});width:${baseWidth / scaleRate}px;height: 100vh;overflow: hidden`
+      this.advancedTexture.addControl(button)
     }
   },
   mounted () {
     const canvas = document.querySelector('#renderCanvas')
     this.createScene(canvas)
-
-    // this.refreshScale()
-    // window.onresize = this.refreshScale
   }
 }
 </script>
