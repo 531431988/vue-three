@@ -19,14 +19,13 @@ let scene2 = null
 export default {
   data () {
     return {
-      showScene: '全景视图',
       active: 0,
       btns: ['全景视图', '进入一层']
     }
   },
   watch: {
-    showScene () {
-      this.advancedTexture.dispose()
+    active () {
+      this.advancedTexture && this.advancedTexture.dispose()
       this.changeScene({ engine })
       // this.createGUI({ engine, text: this.showScene })
     }
@@ -39,6 +38,9 @@ export default {
       scene1 = new BABYLON.Scene(engine)
       scene1.clearColor = clearColor
       const camera1 = new BABYLON.ArcRotateCamera('Camera', 4.67, 1.45, 138, new BABYLON.Vector3(0, -100, 50), scene1)
+      camera1.allowUpsideDown = false
+      camera1.useAutoRotationBehavior = true
+      camera1.useBouncingBehavior = true
       camera1.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
       camera1.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
       camera1.lowerRadiusLimit = 100 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
@@ -53,12 +55,16 @@ export default {
       scene2 = new BABYLON.Scene(engine)
       scene2.clearColor = clearColor
       scene2.createDefaultCameraOrLight(true, true, true)
-      const camera2 = new BABYLON.ArcRotateCamera('Camera', 4.66, 1.15, 100, new BABYLON.Vector3(0, -100, 50), scene2)
+      /* const camera2 = new BABYLON.ArcRotateCamera('Camera', 4.66, 1.15, 100, new BABYLON.Vector3(0, -100, 50), scene2)
+      camera2.allowUpsideDown = false
+      camera2.cameraRotation = new BABYLON.Vector2(4.66, 1.15)
+      camera2.cameraDirection = new BABYLON.Vector3(0, -100, 50)
+      camera2.useAutoRotationBehavior = true
       camera2.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
       camera2.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
       camera2.lowerRadiusLimit = 100 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
       camera2.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
-      camera2.attachControl(canvas, true)
+      camera2.attachControl(canvas, true) */
       // 加载模型
       BABYLON.SceneLoader.AppendAsync('./models/gltf/dongfangnanfang/', 'dfnf.gltf', scene1).then(scene => {
         console.log('加载场景1成功')
@@ -73,13 +79,13 @@ export default {
     },
     changeScene ({ engine }) {
       engine.stopRenderLoop()
-      /* if (this.showScene === '进入一层') {
+      /* if (this.active === 1) {
         scene2.debugLayer.show()
-        } else {
+      } else {
         scene1.debugLayer.show()
       } */
       engine.runRenderLoop(() => {
-        if (this.showScene === '进入一层') {
+        if (this.active === 1) {
           scene2.render()
         } else {
           scene1.render()
@@ -98,17 +104,11 @@ export default {
       button.color = 'white'
       button.background = 'rgba(0,0,0,.5)'
       button.onPointerUpObservable.add(() => {
-        if (this.showScene === '进入一层') {
-          this.showScene = '全景视图'
-        } else {
-          this.showScene = '进入一层'
-        }
       })
       this.advancedTexture.addControl(button)
     },
     onClick (text, index) {
       this.active = index
-      this.showScene = text
     }
   },
   mounted () {

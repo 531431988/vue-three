@@ -25,8 +25,11 @@ export default {
   data () {
     return {
       deviceSwiperOption: {
-        autoplay: false,
-        slidesPerView: 5,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+        slidesPerView: 4,
         direction: 'vertical'
       },
       table: [{
@@ -64,6 +67,8 @@ export default {
 
 <style lang="less" scoped>
 .table {
+  padding: 24px 0;
+  height: 90%;
   .tbody {
     font-size: 16px;
     color: rgba(255, 255, 255, 0.5);

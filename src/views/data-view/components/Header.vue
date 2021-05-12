@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h2 class="title">智能化工厂演示</h2>
+    <h2 class="title">某某某智慧车间演示</h2>
     <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 90">
       <defs>
         <linearGradient id="a" x1="960" y1="-3" x2="960" y2="91" gradientUnits="userSpaceOnUse">
@@ -56,6 +56,19 @@ export default {
     text-align: center;
     color: #fff;
     font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 8px;
+    animation: neon2 1.5s ease-in-out infinite alternate;
+  }
+}
+@keyframes neon2 {
+  from {
+    text-shadow: 0 0 5px #228dff, 0 0 10px #228dff, 0 0 15px #228dff,
+      0 0 20px #228dff;
+  }
+  to {
+    text-shadow: 0 0 10px #228dff, 0 0 15px #228dff, 0 0 20px #228dff,
+      0 0 25px #228dff, 0 0 30px #228dff;
   }
 }
 </style>
