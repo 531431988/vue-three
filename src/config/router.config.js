@@ -75,7 +75,7 @@ const routes = [
   {
     path: '/data-view',
     name: 'data-view',
-    component: () => import('@/views/start/data-view'),
+    component: () => import('@/views/data-view/index'),
     meta: {
       title: '3D大屏'
     }
