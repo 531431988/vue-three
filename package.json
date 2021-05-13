@@ -9,13 +9,20 @@
   },
   "dependencies": {
     "@ant-design-vue/pro-layout": "^1.0.7",
+    "@vue/composition-api": "^1.0.0-rc.8",
     "ant-design-vue": "^1.7.2",
     "babylonjs": "^4.2.0",
     "babylonjs-gui": "^4.2.0",
+    "babylonjs-inspector": "^4.2.0",
     "babylonjs-loaders": "^4.2.0",
     "core-js": "^3.6.5",
+    "echarts": "^5.1.1",
+    "global": "^4.4.0",
     "pepjs": "^0.5.3",
+    "swiper": "5.3.6",
     "vue": "^2.6.11",
+    "vue-awesome-swiper": "4.1.0",
+    "vue-echarts": "^6.0.0-rc.5",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
