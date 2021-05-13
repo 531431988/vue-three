@@ -58,14 +58,16 @@ module.exports = {
           minRatio: 0.8
         }),
         new FileManagerPlugin({
-          onEnd: {
-            delete: [`./${process.env.VUE_APP_OUTPUTDIR}.zip`],
-            archive: [
-              {
+          events: {
+            onEnd: {
+              delete: [
+                `./${process.env.VUE_APP_OUTPUTDIR}.zip`
+              ],
+              archive: [{
                 source: `./${process.env.VUE_APP_OUTPUTDIR}`,
                 destination: `./${process.env.VUE_APP_OUTPUTDIR}.zip`
-              }
-            ]
+              }]
+            }
           }
         })
       )
