@@ -56,44 +56,33 @@ export default {
       light1.intensity = 8
       new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene1)
 
-      // 加载模型
-      BABYLON.SceneLoader.Append('./models/gltf/dongfangnanfang/', 'dfnf.gltf', scene1, res => {
-        // scene1.debugLayer.show()
-        // const plane = new BABYLON.Mesh.CreatePlane('plane', 20)
-        // plane.parent = scene1.getMeshByID('dizhaunqi')
-        // GUI
-        /* var sphere = new BABYLON.Mesh.CreateSphere('sphere1', 15, 10, scene1)
-        sphere.position.x = 22
-        sphere.position.y = -100
-        sphere.position.x = 20
-        var plane = new BABYLON.Mesh.CreatePlane('plane', 2)
-        plane.parent = sphere
-
-        var advancedTexture = new GUI.AdvancedDynamicTexture.CreateForMesh(plane)
-        // advancedTexture.vAng = Math.PI
-        var button1 = new GUI.Button.CreateSimpleButton('but1', 'Click Me')
-        button1.top = '-50%'
-        button1.width = 1
-        button1.height = 0.2
-        button1.color = 'white'
-        button1.fontSize = 50
-        button1.background = 'green'
-        button1.onPointerUpObservable.add(function () {
-          alert('you did it!')
-        })
-        advancedTexture.addControl(button1) */
-      })
-      var advancedTexture = new GUI.AdvancedDynamicTexture.CreateFullscreenUI('enter-the-buliding')
-      var button1 = new GUI.Button.CreateSimpleButton('btn', '查看视频')
-      button1.width = '100px'
-      button1.height = '40px'
-      button1.left = '13%'
-      button1.color = '#fff'
+      var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 10, scene1)
+      sphere.position.x = 22
+      sphere.position.y = -100
+      sphere.position.z = 20
+      sphere.isVisible = false
+      // GUI
+      var plane = BABYLON.Mesh.CreatePlane('plane', 7)
+      plane.parent = sphere
+      plane.position.z = 2
+      const advancedTexture = new GUI.AdvancedDynamicTexture.CreateForMesh(plane)
+      // advancedTexture.vAng = Math.PI
+      const button1 = new GUI.Button.CreateSimpleButton('but1', '查看视频')
+      button1.width = 1
+      button1.height = 0.4
+      button1.color = 'white'
+      button1.fontSize = 200
       button1.background = 'rgba(0,0,0,.5)'
       button1.onPointerUpObservable.add(() => {
         this.visible = true
       })
       advancedTexture.addControl(button1)
+      console.log(scene1.getMeshByID('dizhaunqi'))
+
+      // 加载模型
+      BABYLON.SceneLoader.Append('./models/gltf/dongfangnanfang/', 'dfnf.gltf', scene1, res => {
+        console.log('场景1加载成功')
+      })
 
       // 创建场景2
       scene2 = new BABYLON.Scene(this.engine)
@@ -115,7 +104,7 @@ export default {
       new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene2)
       // 加载模型
       BABYLON.SceneLoader.Append('./models/gltf/first-floor/', '1c.gltf', scene2, res => {
-        console.log('加载场景2成功')
+        console.log('场景2加载成功')
       }, () => { }, error => {
         console.log('error', error)
       })
