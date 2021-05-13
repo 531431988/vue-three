@@ -25,7 +25,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .card {
   position: relative;
   background: rgba(0, 17, 25, 0.6);

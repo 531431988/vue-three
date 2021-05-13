@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h2 class="title">某某某智慧车间演示</h2>
+    <h2 class="title">智慧工厂</h2>
     <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 90">
       <defs>
         <linearGradient id="a" x1="960" y1="-3" x2="960" y2="91" gradientUnits="userSpaceOnUse">
