@@ -47,7 +47,7 @@ export default {
       if (realRatio > designRatio) {
         scaleRate = baseHeight / 1080
       }
-      appStyle.style = `transform-origin: left top;transform: scale(${scaleRate});width:${baseWidth / scaleRate}px;height: 100vh;overflow: hidden`
+      appStyle.style = `transform-origin: left center;transform: scale(${scaleRate});width:${baseWidth / scaleRate}px;height: 100vh;overflow: hidden`
     }
   },
   mounted () {
