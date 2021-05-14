@@ -1,6 +1,25 @@
 <template>
   <div>
     <canvas id="renderCanvas" touch-action="none" style="width: 100%;height: 100vh;touch-action: none;"></canvas>
+
+    <div class="loading-screen" v-if="loading">
+      <div class="progressbar">
+        <div class="side front">
+          <div class="bar" :style="`width: ${loadedPercent}%`"></div>
+          <div class="loading-text">{{loadedPercent}}%</div>
+        </div>
+        <div class="side back">
+          <div class="bar" :style="`width: ${loadedPercent}%`"></div>
+        </div>
+        <div class="side top">
+          <div class="bar" :style="`width: ${loadedPercent}%`"></div>
+        </div>
+        <div class="side bottom">
+          <div class="bar" :style="`width: ${loadedPercent}%`"></div>
+        </div>
+        <div class="side left"></div>
+      </div>
+    </div>
     <div class="btn-bar">
       <button :class="{btn: true, active: active === index}" v-for="(btn, index) in btns" :key="index" @click="onClick(btn,index)">{{btn}}</button>
     </div>
@@ -26,7 +45,10 @@ export default {
     return {
       active: 0,
       btns: ['全景视图', '进入一层'],
-      visible: false
+      visible: false,
+      loading: true,
+      loadingText: 'loading',
+      loadedPercent: 0
     }
   },
   watch: {
@@ -49,9 +71,10 @@ export default {
       camera.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
       camera.lowerRadiusLimit = 10 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
       camera.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
-
+      this.customLoading()
       // 加载模型
       BABYLON.SceneLoader.Append('./models/gltf/dongfangnanfang/', 'dfnf.gltf', scene1, meshes => {
+        // onSuccess
         scene1.clearColor = clearColor
         const directionalLight = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(0, 0, 0), scene1)
         directionalLight.position = new BABYLON.Vector3(0, 100, 100)
@@ -59,9 +82,19 @@ export default {
         const hemiLight = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene1)
         hemiLight.intensity = 2
         hemiLight.groundColor = new BABYLON.Color3(1, 1, 1)
-
         console.log('场景1加载成功')
+        // this.engine.hideLoadingUI()
         this.$emit('ready')
+      }, e => {
+        // onProgress
+        console.log(e)
+        this.loadedPercent = 0
+        if (e.lengthComputable) {
+          this.loadedPercent = (e.loaded * 100 / e.total).toFixed()
+        } else {
+          var dlCount = e.loaded / (1024 * 1024)
+          this.loadedPercent = Math.floor(dlCount * 100.0) / 100.0
+        }
       })
       var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 10, scene1)
       sphere.position.x = 22
@@ -118,11 +151,6 @@ export default {
     },
     changeScene () {
       this.engine.stopRenderLoop()
-      /* if (this.active === 1) {
-        scene2.debugLayer.show()
-      } else {
-        scene1.debugLayer.show()
-      } */
       this.engine.runRenderLoop(() => {
         if (this.active === 1) {
           scene2.render()
@@ -133,6 +161,20 @@ export default {
       window.addEventListener('resize', () => {
         this.engine.resize()
       })
+    },
+    // 自定义loading
+    customLoading () {
+      class CustomLoadingScreen {
+      }
+      CustomLoadingScreen.prototype.displayLoadingUI = () => {
+        this.loadingText = '加载中…'
+      }
+      CustomLoadingScreen.prototype.hideLoadingUI = () => {
+        this.loading = false
+      }
+      var loadingScreen = new CustomLoadingScreen()
+      this.engine.loadingScreen = loadingScreen
+      this.engine.displayLoadingUI()
     },
     onClick (text, index) {
       this.active = index
@@ -185,8 +227,67 @@ export default {
     }
   }
 }
-</style>
-<style lang="less">
-.dialogClass {
+
+.loading-screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(-135deg, #006f79, darkblue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9;
+  .progressbar {
+    width: 30%;
+    height: 60px;
+    transform-style: preserve-3d;
+    transform: rotateX(-20deg) rotateY(-30deg);
+    transition: all 500ms;
+    /* &:hover {
+      transform: rotateX(-20deg) rotateY(40deg);
+    } */
+    .side {
+      width: 100%;
+      height: 60px;
+      background-color: rgba(254, 254, 254, 0.3);
+      top: 0;
+      left: 0;
+      position: absolute;
+    }
+    .loading-text {
+      text-align: center;
+      color: #fff;
+      font-size: 50px;
+      line-height: 1;
+      position: relative;
+      z-index: 9;
+    }
+    .top {
+      transform: translate(0, -100%) rotateX(90deg);
+      transform-origin: bottom;
+    }
+    .back {
+      transform: translateZ(-60px);
+    }
+    .left {
+      width: 60px;
+      transform: rotateY(90deg);
+      background: rgba(8, 93, 163, 0.8);
+      transform-origin: left;
+    }
+    .bottom {
+      box-shadow: 10px 10px 50px 5px rgba(90, 90, 90, 0.7);
+      transform: rotateX(90deg);
+      transform-origin: bottom;
+    }
+    .bar {
+      position: absolute;
+      height: 100%;
+      background-color: rgba(21, 144, 245, 0.562);
+      box-shadow: 5px 5px 50px 5px rgba(21, 144, 245, 0.562);
+    }
+  }
 }
 </style>
