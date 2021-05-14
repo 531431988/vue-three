@@ -4,7 +4,7 @@
     <div class="btn-bar">
       <button :class="{btn: true, active: active === index}" v-for="(btn, index) in btns" :key="index" @click="onClick(btn,index)">{{btn}}</button>
     </div>
-    <a-modal v-model="visible" width="40%" :closable="false" centered :footer="null" :bodyStyle="{padding: 0}" dialogClass="dialogClass">
+    <a-modal v-model="visible" :destroyOnClose="true" width="40%" :closable="false" centered :footer="null" :bodyStyle="{padding: 0}" dialogClass="dialogClass">
       <div class="card" style="height: 100%">
         <div class="border"></div>
         <video src="../../../../public/city.mp4" width="100%" autoplay="autoplay" controls></video>
@@ -31,7 +31,6 @@ export default {
   },
   watch: {
     active () {
-      // this.advancedTexture && this.advancedTexture.dispose()
       this.changeScene()
     }
   },
@@ -41,21 +40,28 @@ export default {
       this.engine = new BABYLON.Engine(canvas, true)
       // 创建场景1
       scene1 = new BABYLON.Scene(this.engine)
-      scene1.clearColor = clearColor
-      const camera1 = new BABYLON.ArcRotateCamera('Camera', 4.67, 1.45, 100, new BABYLON.Vector3(0, -100, 50), scene1)
-      camera1.allowUpsideDown = false
-      camera1.useAutoRotationBehavior = true
-      camera1.useBouncingBehavior = true
-      camera1.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
-      camera1.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
-      camera1.lowerRadiusLimit = 10 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
-      camera1.upperRadiusLimit = 240 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
-      camera1.attachControl(canvas, true)
-      const light1 = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(0.60, -0.7, 0.63), scene1)
-      light1.position = new BABYLON.Vector3(-0.05, 0.35, -0.05)
-      light1.intensity = 8
-      new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene1)
+      let camera = new BABYLON.ArcRotateCamera('Camera', Math.PI, 1.45, 100, new BABYLON.Vector3(0, -100, 50), scene1)
+      camera.attachControl(canvas, true)
+      camera.allowUpsideDown = false
+      camera.useAutoRotationBehavior = true
+      camera.useBouncingBehavior = true
+      camera.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
+      camera.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
+      camera.lowerRadiusLimit = 10 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
+      camera.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
 
+      // 加载模型
+      BABYLON.SceneLoader.Append('./models/gltf/dongfangnanfang/', 'dfnf.gltf', scene1, meshes => {
+        scene1.clearColor = clearColor
+        const directionalLight = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(0, 0, 0), scene1)
+        directionalLight.position = new BABYLON.Vector3(0, 100, 100)
+        directionalLight.intensity = 8
+        const hemiLight = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene1)
+        hemiLight.intensity = 2
+        hemiLight.groundColor = new BABYLON.Color3(1, 1, 1)
+
+        console.log('场景1加载成功')
+      })
       var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 10, scene1)
       sphere.position.x = 22
       sphere.position.y = -100
@@ -76,34 +82,32 @@ export default {
       button1.onPointerUpObservable.add(() => {
         this.visible = true
       })
+      /* scene1.registerBeforeRender(function () {
+        plane.lookAt(camera.position)
+      }) */
       advancedTexture.addControl(button1)
-      console.log(scene1.getMeshByID('dizhaunqi'))
-
-      // 加载模型
-      BABYLON.SceneLoader.Append('./models/gltf/dongfangnanfang/', 'dfnf.gltf', scene1, res => {
-        console.log('场景1加载成功')
-      })
+      // scene1.debugLayer.show()
 
       // 创建场景2
       scene2 = new BABYLON.Scene(this.engine)
       scene2.clearColor = clearColor
-      // scene2.createDefaultCameraOrLight(true, true, true)
-      const camera2 = new BABYLON.ArcRotateCamera('Camera', 4.66, 1.15, 100, new BABYLON.Vector3(0, 0, 0), scene2)
-      camera2.allowUpsideDown = false
-      camera2.cameraRotation = new BABYLON.Vector2(4.66, 1.15)
-      camera2.cameraDirection = new BABYLON.Vector3(0, -100, 50)
-      camera2.useAutoRotationBehavior = true
-      camera2.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
-      camera2.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
-      camera2.lowerRadiusLimit = 20 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
-      camera2.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
-      camera2.attachControl(canvas, true)
-      const light2 = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(0.60, -0.7, 0.63), scene2)
-      light2.position = new BABYLON.Vector3(-0.05, 0.35, -0.05)
-      light2.intensity = 8
-      new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene2)
       // 加载模型
-      BABYLON.SceneLoader.Append('./models/gltf/first-floor/', '1c.gltf', scene2, res => {
+      BABYLON.SceneLoader.Append('./models/gltf/first-floor/', '1c.gltf', scene2, meshes => {
+        camera = new BABYLON.ArcRotateCamera('Camera', 4.66, 1.15, 100, new BABYLON.Vector3(0, 0, 0), scene2)
+        camera.cameraRotation = new BABYLON.Vector2(4.66, 1.15)
+        camera.cameraDirection = new BABYLON.Vector3(0, -100, 50)
+        camera.allowUpsideDown = false
+        camera.useAutoRotationBehavior = true
+        camera.useBouncingBehavior = true
+        camera.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
+        camera.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
+        camera.lowerRadiusLimit = 10 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
+        camera.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
+        camera.attachControl(canvas, true)
+        const hemiLight = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene2)
+        hemiLight.intensity = 2.5
+        hemiLight.diffuse = new BABYLON.Color3(0.7, 0.7, 0.7)
+        hemiLight.groundColor = new BABYLON.Color3(1, 1, 1)
         console.log('场景2加载成功')
       }, () => { }, error => {
         console.log('error', error)
@@ -129,25 +133,11 @@ export default {
         this.engine.resize()
       })
     },
-    createGUI () {
-
-      /*  scene1.registerBeforeRender(function () {
-        plane.lookAt(camera.position)
-      })
- */
-      /* var advancedTexture = new GUI.AdvancedDynamicTexture.CreateForMesh(plane)
-      const button = new GUI.Button.CreateSimpleButton('but', '查看视频')
-      button.width = 0.2
-      button.height = '40px'
-      button.color = 'white'
-      button.background = 'rgba(0,0,0,.5)'
-      button.onPointerUpObservable.add(() => {
-        alert(1)
-      })
-      advancedTexture.addControl(button) */
-    },
     onClick (text, index) {
       this.active = index
+      scene1.debugLayer.hide()
+      scene2.debugLayer.hide()
+      if (index === 1) scene2.debugLayer.show()
     }
   },
   mounted () {
