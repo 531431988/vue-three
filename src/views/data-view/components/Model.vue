@@ -69,7 +69,7 @@ export default {
       camera.useBouncingBehavior = true
       camera.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
       camera.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
-      camera.lowerRadiusLimit = 10 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
+      camera.lowerRadiusLimit = 100 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
       camera.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
       this.customLoading()
       // 加载模型
@@ -87,7 +87,6 @@ export default {
         this.$emit('ready')
       }, e => {
         // onProgress
-        console.log(e)
         this.loadedPercent = 0
         if (e.lengthComputable) {
           this.loadedPercent = (e.loaded * 100 / e.total).toFixed()
@@ -95,7 +94,10 @@ export default {
           var dlCount = e.loaded / (1024 * 1024)
           this.loadedPercent = Math.floor(dlCount * 100.0) / 100.0
         }
+      }, error => {
+        console.log('error', error)
       })
+      /* // 贴标签
       var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 10, scene1)
       sphere.position.x = 22
       sphere.position.y = -100
@@ -116,10 +118,45 @@ export default {
       button1.onPointerUpObservable.add(() => {
         this.visible = true
       })
-      /* scene1.registerBeforeRender(function () {
-        plane.lookAt(camera.position)
-      }) */
-      advancedTexture.addControl(button1)
+      advancedTexture.addControl(button1) */
+
+      var sphere = new BABYLON.Mesh.CreateSphere('sphere1', 16, 100, scene1)
+      sphere.position.x = 22
+      sphere.position.y = -82
+      sphere.position.z = 50
+      sphere.isVisible = false
+      // GUI
+      var advancedTexture = new GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI')
+
+      var button = new GUI.Button.CreateSimpleButton('but1', '查看视频')
+      button.width = '100px'
+      button.height = '40px'
+      button.cornerRadius = 20
+      button.color = '#fff'
+      button.thickness = 2
+      button.background = 'rgba(0,0,0,.5)'
+      advancedTexture.addControl(button)
+      button.linkWithMesh(sphere)
+      button.linkOffsetY = -250
+      button.onPointerUpObservable.add(() => {
+        this.visible = true
+      })
+      // label.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
+
+      // var text = new GUI.TextBlock()
+      // text.text = '查看视频'
+      // label.addControl(text)
+
+      var line = new GUI.Line()
+      line.lineWidth = 2
+      line.color = '#fff'
+      line.y2 = 20
+      line.linkOffsetY = -20
+      line.dash = [5, 10]
+      advancedTexture.addControl(line)
+      line.linkWithMesh(sphere)
+      line.connectedControl = button
+
       // scene1.debugLayer.show()
 
       // 创建场景2
@@ -180,7 +217,7 @@ export default {
       this.active = index
       scene1.debugLayer.hide()
       scene2.debugLayer.hide()
-      if (index === 1) scene2.debugLayer.show()
+      // if (index === 1) scene2.debugLayer.show()
     }
   },
   mounted () {
