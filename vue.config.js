@@ -47,7 +47,7 @@ module.exports = {
       '.svg'
     ]
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
-    if (env) {
+    /* if (env) {
       const plugins = []
       plugins.push(
         new CompressionWebpackPlugin({
@@ -91,7 +91,7 @@ module.exports = {
           }
         }
       }
-    }
+    } */
   },
   css: {
     loaderOptions: {

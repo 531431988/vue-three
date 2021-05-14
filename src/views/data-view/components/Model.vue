@@ -61,6 +61,7 @@ export default {
         hemiLight.groundColor = new BABYLON.Color3(1, 1, 1)
 
         console.log('场景1加载成功')
+        this.$emit('ready')
       })
       var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 10, scene1)
       sphere.position.x = 22

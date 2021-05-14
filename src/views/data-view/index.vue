@@ -1,24 +1,41 @@
 <template>
   <div class="data-view">
+    <template v-if="visible">
+      <Animated name="fadeInDown" delay="1s" :begin="begin">
 
-    <Head />
-    <div class="left">
-      <BarChart />
-      <Progress />
-      <AreaChart />
-    </div>
-    <div class="right">
-      <ColumnChart />
-      <Table />
-      <PieChart />
-    </div>
-    <Model />
+        <Head />
+      </Animated>
+      <div class="left">
+        <Animated name="fadeInLeft" delay="0.2s" :begin="begin">
+          <BarChart />
+        </Animated>
+        <Animated name="fadeInLeft" delay="0.6s" :begin="begin">
+          <Progress />
+        </Animated>
+        <Animated name="fadeInLeft" delay="1s" :begin="begin">
+          <AreaChart />
+        </Animated>
+      </div>
+      <div class="right">
+        <Animated name="fadeInRight" delay="0.4s" :begin="begin">
+          <ColumnChart />
+        </Animated>
+        <Animated name="fadeInRight" delay="0.8s" :begin="begin">
+          <Table />
+        </Animated>
+        <Animated name="fadeInRight" delay="1.2s" :begin="begin">
+          <PieChart />
+        </Animated>
+      </div>
+    </template>
+    <Model @ready="onReady" />
   </div>
 </template>
 
 <script>
 export default {
   components: {
+    Animated: () => import('./components/Animated'),
     Head: () => import('./components/Header'),
     Model: () => import('./components/Model'),
     BarChart: () => import('./components/BarChart'),
@@ -31,7 +48,8 @@ export default {
   },
   data () {
     return {
-
+      visible: false,
+      begin: false
     }
   },
   methods: {
@@ -48,6 +66,10 @@ export default {
         scaleRate = baseHeight / 1080
       }
       appStyle.style = `transform-origin: left center;transform: scale(${scaleRate});width:${baseWidth / scaleRate}px;height: 100vh;overflow: hidden`
+    },
+    onReady () {
+      this.visible = true
+      this.begin = true
     }
   },
   mounted () {

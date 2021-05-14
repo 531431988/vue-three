@@ -23,7 +23,9 @@
     "vue": "^2.6.11",
     "vue-awesome-swiper": "4.1.0",
     "vue-echarts": "^6.0.0-rc.5",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vue-wow": "^1.2.0",
+    "vue2-animate": "^2.1.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

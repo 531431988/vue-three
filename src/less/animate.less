@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+/*!
+ * vue2-animate
+ * (c) 2016 Simon Asika
+ * Released under the MIT License.
+ * Documentation: https://github.com/asika32764/vue2-animate
+ */
+
+@animationDuration: 1s;
+@animations: '~vue2-animate/src/less/animations';
+
+// Main mixin
+@import '~vue2-animate/src/less/make-transitions';
+
+// Our animations
+@import '@{animations}/fading/all';
+@import '@{animations}/bouncing/all';
+
+.point {
+
+  &:before,
+  &:after {
+    background-color: rgba(241, 34, 30, 0.9);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 12px;
+    height: 12px;
+    content: '';
+    border-radius: 100%;
+  }
+
+  &:before {
+    animation: scale 2s infinite;
+  }
+
+  &:after {
+    animation: scale2 2s infinite;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(6);
+    opacity: 0;
+  }
+}
+
+@keyframes scale2 {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(12);
+    opacity: 0;
+  }
+}
