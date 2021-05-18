@@ -3,22 +3,7 @@
     <canvas id="renderCanvas" touch-action="none" style="width: 100%;height: 100vh;touch-action: none;"></canvas>
 
     <div class="loading-screen" v-if="loading">
-      <div class="progressbar">
-        <div class="side front">
-          <div class="bar" :style="`width: ${loadedPercent}%`"></div>
-          <div class="loading-text">{{loadedPercent}}%</div>
-        </div>
-        <div class="side back">
-          <div class="bar" :style="`width: ${loadedPercent}%`"></div>
-        </div>
-        <div class="side top">
-          <div class="bar" :style="`width: ${loadedPercent}%`"></div>
-        </div>
-        <div class="side bottom">
-          <div class="bar" :style="`width: ${loadedPercent}%`"></div>
-        </div>
-        <div class="side left"></div>
-      </div>
+      <Loading />
     </div>
     <div class="btn-bar">
       <button :class="{btn: true, active: active === index}" v-for="(btn, index) in btns" :key="index" @click="onClick(btn,index)">{{btn}}</button>
@@ -41,6 +26,9 @@ import 'babylonjs-loaders'
 let scene1 = null
 let scene2 = null
 export default {
+  components: {
+    Loading: () => import('./Loading')
+  },
   data () {
     return {
       active: 0,
@@ -276,55 +264,5 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 9;
-  .progressbar {
-    width: 30%;
-    height: 60px;
-    transform-style: preserve-3d;
-    transform: rotateX(-20deg) rotateY(-30deg);
-    transition: all 500ms;
-    /* &:hover {
-      transform: rotateX(-20deg) rotateY(40deg);
-    } */
-    .side {
-      width: 100%;
-      height: 60px;
-      background-color: rgba(254, 254, 254, 0.3);
-      top: 0;
-      left: 0;
-      position: absolute;
-    }
-    .loading-text {
-      text-align: center;
-      color: #fff;
-      font-size: 50px;
-      line-height: 1;
-      position: relative;
-      z-index: 9;
-    }
-    .top {
-      transform: translate(0, -100%) rotateX(90deg);
-      transform-origin: bottom;
-    }
-    .back {
-      transform: translateZ(-60px);
-    }
-    .left {
-      width: 60px;
-      transform: rotateY(90deg);
-      background: rgba(8, 93, 163, 0.8);
-      transform-origin: left;
-    }
-    .bottom {
-      box-shadow: 10px 10px 50px 5px rgba(90, 90, 90, 0.7);
-      transform: rotateX(90deg);
-      transform-origin: bottom;
-    }
-    .bar {
-      position: absolute;
-      height: 100%;
-      background-color: rgba(21, 144, 245, 0.562);
-      box-shadow: 5px 5px 50px 5px rgba(21, 144, 245, 0.562);
-    }
-  }
 }
 </style>
