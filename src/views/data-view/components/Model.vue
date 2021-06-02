@@ -56,8 +56,8 @@ export default {
       camera.useAutoRotationBehavior = true
       camera.useBouncingBehavior = true
       camera.lowerBetaLimit = 0.1 // 纬度轴上允许的最小角度
-      camera.upperBetaLimit = (Math.PI / 2) * 0.9 // 纬度轴上允许的最大角度
-      camera.lowerRadiusLimit = 100 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
+      camera.upperBetaLimit = (Math.PI / 2) // 纬度轴上允许的最大角度
+      camera.lowerRadiusLimit = 50 // 摄像机到目标的最小允许距离（摄像机无法靠近）。
       camera.upperRadiusLimit = 200 // 摄像机到目标的最大允许距离（摄像机不能再远了）。
       this.customLoading()
       // 加载模型
